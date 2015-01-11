@@ -29,7 +29,7 @@
    complete the incomplete type declaration in command.h.  */
 struct command_stream
 {
-	command_t current;
+	int current;
 	int count;
 	command_t head;
 };
@@ -45,7 +45,7 @@ int is_spec(char c){
 	
 void command_init(command_stream_t c)
 {
-	c->current = NULL;
+	c->current = 0;
 	c->count = 0;
 	c->head = NULL;
 }
