@@ -122,5 +122,6 @@ command_t
 read_command_stream (command_stream_t s)
 {
   /* FIXME: Replace this with your implementation too.  */
-  if (s->current < s->count) return s->head[s->current++]; else return NULL;
+  command_t ret;
+  if (s->current < s->count) {ret = s->head[&(s->current)]; current++; return ret;}else return NULL;
 }
