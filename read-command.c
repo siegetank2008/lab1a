@@ -17,7 +17,7 @@
 
 #include "command.h"
 #include "command-internals.h"
-#include <alloc.h>
+#include "alloc.h"
 #include <error.h>
 
 #include <stdlib.h>
