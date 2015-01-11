@@ -27,7 +27,7 @@
 
 /* FIXME: Define the type 'struct command_stream' here.  This should
    complete the incomplete type declaration in command.h.  */
-typedef struct command_stream command_stream
+struct command_stream
 {
 	command_t current;
 	int count;
@@ -61,7 +61,7 @@ make_command_stream (int (*get_next_byte) (void *),
 	char* buffer = NULL;
 	unsigned int bufLen = 0;
 	char tmp;
-	command_stream_t retval =(command_stream*)checked_alloc(sizeof(command_stream));
+	command_stream_t retval =(struct command_stream*)checked_alloc(sizeof(struct command_stream));
 	
 	command_init(retval);
 	while ( tmp = get_next_byte(get_next_byte_argument) >= 0)
