@@ -27,7 +27,7 @@
 
 /* FIXME: Define the type 'struct command_stream' here.  This should
    complete the incomplete type declaration in command.h.  */
-struct command_stream
+typedef struct command_stream command_stream
 {
 	command_t current;
 	int count;
