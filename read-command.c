@@ -57,7 +57,7 @@ make_command_stream (int (*get_next_byte) (void *),
   /* FIXME: Replace this with your implementation.  You may need to
      add auxiliary functions and otherwise modify the source code.
      You can also use external functions defined in the GNU C Library.  */
-	printf("make command stream");
+	printf("make command stream\n");
 	char* buffer = NULL;
 	unsigned int bufLen = 0;
 	char tmp;
@@ -70,7 +70,7 @@ make_command_stream (int (*get_next_byte) (void *),
 		buffer[bufLen] = tmp;
 		bufLen++;
 	}
-	printf("%d bytes read", bufLen);
+	printf("%d bytes read\n", bufLen);
 	int* wds = NULL;
 	unsigned int wdscount = 0;
 	int inword = 0;
@@ -89,11 +89,11 @@ make_command_stream (int (*get_next_byte) (void *),
 			{wds = checked_realloc(wds, 2*wdscount+2); inword =0; wds[wdscount*2]= i;wds[wdscount*2+1]= 1;}
 			else if (buffer[i]=='#') while (i<bufLen && buffer[i]!='\n' )i++;
 	}
-	
+	printf("%d words converted\n", wdscount);
 	int j;
 	for (i=0; i<wdscount;i++){
-		for (j=0;j<wds[wdscount*2+1];j++)
-			printf("%c",buffer[wds[wdscount*2]+j]);printf("\n");}
+		for (j=0;j<wds[i*2+1];j++)
+			printf("%c",buffer[wds[i*2]+j]);printf("\n");}
   return 0;
 }
 
