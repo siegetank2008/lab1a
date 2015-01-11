@@ -17,9 +17,11 @@
 
 #include "command.h"
 #include "command-internals.h"
-
-#include <error.h>
 #include <alloc.h>
+#include <error.h>
+
+#include <stdlib.h>
+#include <stdio.h>
 /* FIXME: You may need to add #include directives, macro definitions,
    static function definitions, etc.  */
 
@@ -57,11 +59,11 @@ make_command_stream (int (*get_next_byte) (void *),
      You can also use external functions defined in the GNU C Library.  */
 	
 	char* buffer = NULL;
-	int bufLen = 0;
+	unsigned int bufLen = 0;
 	char tmp;
-	command_stream retval;
+	command_stream_t retval =(command_stream*)checked_alloc(sizeof(command_stream));
 	
-	command_init(&retval);
+	command_init(retval);
 	while ( tmp = get_next_byte(get_next_byte_argument) >= 0)
 	{
 		if (bufLen % 100 == 0) buffer = checked_realloc(buffer, bufLen+100);
@@ -70,7 +72,7 @@ make_command_stream (int (*get_next_byte) (void *),
 	}
 	
 	int* wds = NULL;
-	int wdscount = 0;
+	unsigned int wdscount = 0;
 	int inword = 0;
 	int i;
 	
