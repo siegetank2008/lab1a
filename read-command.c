@@ -57,11 +57,11 @@ make_command_stream (int (*get_next_byte) (void *),
   /* FIXME: Replace this with your implementation.  You may need to
      add auxiliary functions and otherwise modify the source code.
      You can also use external functions defined in the GNU C Library.  */
-	
+	printf("make command stream");
 	char* buffer = NULL;
 	unsigned int bufLen = 0;
 	char tmp;
-	command_stream_t retval =(struct command_stream*)checked_alloc(sizeof(struct command_stream));
+	command_stream_t retval =(struct command_stream*)checked_malloc(sizeof(struct command_stream));
 	
 	command_init(retval);
 	while ( tmp = get_next_byte(get_next_byte_argument) >= 0)
