@@ -25,7 +25,29 @@
 
 /* FIXME: Define the type 'struct command_stream' here.  This should
    complete the incomplete type declaration in command.h.  */
+struct command_stream
+{
+	command_t current;
+	int count;
+	command_t head;
+}
+   
+   
+int is_alpha(char c){
+	if ( (c>='a' && c<='z') ||  (c>='A' && c<='Z') ||  (c>='0' && c<='9') || c=='!' || c=='%' || c=='+' || c==',' || c=='-' || c=='.' || c=='/' ||c==':' || c=='@' || c=='^' || c=='_') return 1; else return 0;
+	}
 
+int is_spec(char c){
+	if (buffer[i] == '<' || buffer[i]'>' || buffer[i] =='(' || buffer[i]==')' || buffer[i]==';' || buffer[i] =='|' || buffer[i]==' ' ||buffer[i]=='\t' ||buffer[i] == '\n') return 1; else return 0;
+	}
+	
+void command_init(command_stream& c)
+{
+	c.current = NULL;
+	c.count = 0;
+	c.head = NULL;
+}
+	
 command_stream_t
 make_command_stream (int (*get_next_byte) (void *),
 		     void *get_next_byte_argument)
@@ -33,7 +55,43 @@ make_command_stream (int (*get_next_byte) (void *),
   /* FIXME: Replace this with your implementation.  You may need to
      add auxiliary functions and otherwise modify the source code.
      You can also use external functions defined in the GNU C Library.  */
-  error (1, 0, "command reading not yet implemented");
+	
+	char* buffer = NULL;
+	int bufLen = 0;
+	char tmp;
+	command_stream retval;
+	
+	command_init(retval);
+	while ( tmp = get_next_byte(get_next_byte_argument) >= 0)
+	{
+		if (bufLen % 100 == 0) buffer = checked_realloc(buffer, bufLen+100);
+		buffer[bufLen] = tmp;
+		bufLen++;
+	}
+	
+	int* wds = NULL;
+	int wdscount = 0;
+	int inword = 0;
+	int i;
+	
+	for (i=0; i<bufLen;i++)
+	{
+		if (inword) 
+			if (is_alpha(buffer[i])) {wds[wdscount*2+1]++;
+			else if (is_spec(buffer[i]))
+			{wds = checked_realloc(wds, 2*wdscount+2); inword =0; wds[wdscount*2]= i;wds[wdscount*2+1]= 1;}
+			else if (buffer[i]=='#') while (i<bufLen && buffer[i]!='\n' )i++;
+		else
+			if (is_alpha(buffer[i])) { wds = checked_realloc(wds, 2*wdscount+2); inword =1; wds[wdscount*2]= i;wds[wdscount*2+1]=1;}
+			else if (is_spec(buffer[i])) 
+			{wds = checked_realloc(wds, 2*wdscount+2); inword =0; wds[wdscount*2]= i;wds[wdscount*2+1]= 1;}
+			else if (buffer[i]=='#') while (i<bufLen && buffer[i]!='\n' )i++;
+	}
+	
+	int j;
+	for (i=0; i<wdscount;i++){
+		for (j=0;j<wds[wdscount*2+1];j++)
+			printf("%c",buffer[wds[wdscount*2]+j]);printf("\n");}
   return 0;
 }
 
