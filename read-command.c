@@ -70,7 +70,7 @@ make_command_stream (int (*get_next_byte) (void *),
 		buffer[bufLen] = tmp;
 		bufLen++;
 	}
-	
+	printf("%d bytes read", bufLen);
 	int* wds = NULL;
 	unsigned int wdscount = 0;
 	int inword = 0;
