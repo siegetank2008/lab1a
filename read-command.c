@@ -64,7 +64,7 @@ make_command_stream (int (*get_next_byte) (void *),
 	command_stream_t retval =(struct command_stream*)checked_malloc(sizeof(struct command_stream));
 	
 	command_init(retval);
-	while ( tmp = get_next_byte(get_next_byte_argument) >= 0)
+	while ( (tmp = get_next_byte(get_next_byte_argument)) >= 0)
 	{
 		if (bufLen % 100 == 0) buffer = checked_realloc(buffer, bufLen+100);
 		buffer[bufLen] = tmp;
