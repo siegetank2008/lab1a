@@ -91,9 +91,9 @@ make_command_stream (int (*get_next_byte) (void *),
 	}
 	printf("%d words converted\n", wdscount);
 	int j;
-	for (i=0; i<wdscount;i++){
+	for (i=0; i<wdscount;i++)
 		for (j=0;j<wds[i*2+1];j++)
-			printf("%c",buffer[wds[i*2]+j]);printf("\n");}
+			printf("%d %d\n",wds[i*2],wds[i*2+1]);
   return 0;
 }
 
