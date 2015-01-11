@@ -80,7 +80,7 @@ make_command_stream (int (*get_next_byte) (void *),
 	{
 		printf("processing %c", buffer[i]);
 		if (inword) 
-			{if (is_alpha(buffer[i])) {printf("inword isalpha");wds[wdscount*2+1]++;}
+			{if (is_alpha(buffer[i])) {printf("inword isalpha");wds[wdscount*2-1]++;}
 			else if (is_spec(buffer[i]))
 			{printf("inword isspec");wds = checked_realloc(wds, size_int*(2*wdscount+2)); inword =0; wds[wdscount*2]= i;wds[wdscount*2+1]= 1;wdscount++;}
 			else if (buffer[i]=='#') {while (i<bufLen && buffer[i]!='\n' )i++;inword=0;}}
@@ -94,7 +94,7 @@ make_command_stream (int (*get_next_byte) (void *),
 	int j;
 	for (i=0; i<wdscount;i++)
 		for (j=0;j<wds[i*2+1];j++)
-			printf("%d %d\n",wds[i*2],wds[i*2+1]);
+			printf("%c",buffer[wds[i*2]+j]);
   return 0;
 }
 
