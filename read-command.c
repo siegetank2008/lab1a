@@ -92,16 +92,35 @@ make_command_stream (int (*get_next_byte) (void *),
 	}
 	printf("%d words converted\n", wdscount);
 	int j;
-	for (i=0; i<wdscount;i++)
+	for (i=0; i<wdscount;i++){
 		for (j=0;j<wds[i*2+1];j++)
-			printf("%c",buffer[wds[i*2]+j]);
-  return 0;
+			printf("%c",buffer[wds[i*2]+j]); printf("!");}
+			
+	/*terminate a command
+		1. > dest is defined
+		2. newline detected
+		
+		
+		
+		
+		
+	
+	int pos = 0;
+	command_t cmdptr;
+	while ( cmdptr = process_wds(buffer, wds, 0, pos) )
+	{
+		retval->head = (struct command*) checked_realloc(retval->head, sizeof(struct command)*(count+1));
+		retval->head[count++] = cmdptr;
+	}
+	retval->current = 0;
+	
+		*/
+  return retval;
 }
 
 command_t
 read_command_stream (command_stream_t s)
 {
   /* FIXME: Replace this with your implementation too.  */
-  error (1, 0, "command reading not yet implemented");
-  return 0;
+  if (current<count) return s->head[current++]; else return NULL;
 }
