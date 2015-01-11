@@ -78,15 +78,16 @@ make_command_stream (int (*get_next_byte) (void *),
 	int size_int = sizeof(int);
 	for (i=0; i<bufLen;i++)
 	{
+		printf("processing %c", buffer[i]);
 		if (inword) 
-			{if (is_alpha(buffer[i])) {wds[wdscount*2+1]++;}
+			{if (is_alpha(buffer[i])) {printf("inword isalpha");wds[wdscount*2+1]++;}
 			else if (is_spec(buffer[i]))
-			{wds = checked_realloc(wds, size_int*(2*wdscount+2)); inword =0; wds[wdscount*2]= i;wds[wdscount*2+1]= 1;wdscount++;}
+			{printf("inword isspec");wds = checked_realloc(wds, size_int*(2*wdscount+2)); inword =0; wds[wdscount*2]= i;wds[wdscount*2+1]= 1;wdscount++;}
 			else if (buffer[i]=='#') {while (i<bufLen && buffer[i]!='\n' )i++;inword=0;}}
 		else
-			{if (is_alpha(buffer[i])) { wds = checked_realloc(wds, size_int*(2*wdscount+2)); inword =1; wds[wdscount*2]= i;wds[wdscount*2+1]=1;wdscount++;}
+			{if (is_alpha(buffer[i])) {printf("not inword isalpha"); wds = checked_realloc(wds, size_int*(2*wdscount+2)); inword =1; wds[wdscount*2]= i;wds[wdscount*2+1]=1;wdscount++;}
 			else if (is_spec(buffer[i])) 
-			{wds = checked_realloc(wds, size_int*(2*wdscount+2)); inword =0; wds[wdscount*2]= i;wds[wdscount*2+1]= 1;wdscount++;}
+			{printf("not inword isspec");wds = checked_realloc(wds, size_int*(2*wdscount+2)); inword =0; wds[wdscount*2]= i;wds[wdscount*2+1]= 1;wdscount++;}
 			else if (buffer[i]=='#') while (i<bufLen && buffer[i]!='\n' )i++;}
 	}
 	printf("%d words converted\n", wdscount);
