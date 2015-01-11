@@ -19,7 +19,7 @@
 #include "command-internals.h"
 
 #include <error.h>
-
+#include <alloc.h>
 /* FIXME: You may need to add #include directives, macro definitions,
    static function definitions, etc.  */
 
@@ -30,7 +30,7 @@ struct command_stream
 	command_t current;
 	int count;
 	command_t head;
-}
+};
    
    
 int is_alpha(char c){
@@ -38,14 +38,14 @@ int is_alpha(char c){
 	}
 
 int is_spec(char c){
-	if (buffer[i] == '<' || buffer[i]'>' || buffer[i] =='(' || buffer[i]==')' || buffer[i]==';' || buffer[i] =='|' || buffer[i]==' ' ||buffer[i]=='\t' ||buffer[i] == '\n') return 1; else return 0;
+	if (c== '<' ||c=='>' || c=='(' || c==')' || c==';' || c =='|' || c==' ' || c=='\t' || c == '\n') return 1; else return 0;
 	}
 	
-void command_init(command_stream& c)
+void command_init(command_stream_t c)
 {
-	c.current = NULL;
-	c.count = 0;
-	c.head = NULL;
+	c->current = NULL;
+	c->count = 0;
+	c->head = NULL;
 }
 	
 command_stream_t
@@ -61,7 +61,7 @@ make_command_stream (int (*get_next_byte) (void *),
 	char tmp;
 	command_stream retval;
 	
-	command_init(retval);
+	command_init(&retval);
 	while ( tmp = get_next_byte(get_next_byte_argument) >= 0)
 	{
 		if (bufLen % 100 == 0) buffer = checked_realloc(buffer, bufLen+100);
@@ -77,7 +77,7 @@ make_command_stream (int (*get_next_byte) (void *),
 	for (i=0; i<bufLen;i++)
 	{
 		if (inword) 
-			if (is_alpha(buffer[i])) {wds[wdscount*2+1]++;
+			if (is_alpha(buffer[i])) {wds[wdscount*2+1]++;}
 			else if (is_spec(buffer[i]))
 			{wds = checked_realloc(wds, 2*wdscount+2); inword =0; wds[wdscount*2]= i;wds[wdscount*2+1]= 1;}
 			else if (buffer[i]=='#') while (i<bufLen && buffer[i]!='\n' )i++;
